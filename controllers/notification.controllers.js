@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 
 module.exports.addNotification = async (req, res) => {
   try {
-    const { employeeId, message, taskId, admin } = req.body;
+    const { employeeId, message, taskId, admin, type } = req.body;
 
     if (!message) {
       return res.json({
@@ -18,6 +18,7 @@ module.exports.addNotification = async (req, res) => {
       message,
       taskId,
       admin: admin || false,
+      type
 
     });
 
@@ -119,5 +120,42 @@ module.exports.markAdminNotificationsAsRead = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
+
+//  Mark only Leave notifications as read
+module.exports.markLeaveNotificationsAsRead = async (req, res) => {
+  try {
+    await notificationModel.updateMany(
+      { admin: true, type: "leave", isRead: false },
+      { isRead: true, readAt: new Date() }
+    );
+
+    res.json({
+      success: true,
+      message: "Leave notifications marked as read",
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+//  Mark only Requirement notifications as read
+module.exports.markRequirementNotificationsAsRead = async (req, res) => {
+  try {
+    await notificationModel.updateMany(
+      { admin: true, type: "requirement", isRead: false },
+      { isRead: true, readAt: new Date() }
+    );
+
+    res.json({
+      success: true,
+      message: "Requirement notifications marked as read",
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 
 

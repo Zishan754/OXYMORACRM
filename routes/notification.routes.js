@@ -11,4 +11,8 @@ router.post("/get-admin-notifications", notificationController.getAdminNotificat
 router.post("/mark-admin-notifications-read", notificationController.markAdminNotificationsAsRead);
 
 
+router.post("/mark-leave-notifications-read", notificationController.markLeaveNotificationsAsRead);
+router.post("/mark-requirement-notifications-read", notificationController.markRequirementNotificationsAsRead);
+
+
 module.exports = router;

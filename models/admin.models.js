@@ -16,12 +16,14 @@ const adminSchema = new mongoose.Schema({
   gender:{type:String, text:true},
   role: { type: String, enum: ["Employee", "Employee TL"], default: "Employee"},
   industry: { type: String, enum: ["Software", "Firmware/Embedded", "Hardware", "HR", "BA", "Sales & Marketing"], default: "Employee"},
+
+  showStockOption: { type: Boolean, default: false, },
   
 
 
   // ✅ Add these fields for leave tracking
-  casualLeaves: { type: Number, default: 7 },
-  sickLeaves: { type: Number, default: 7 },
+  // casualLeaves: { type: Number, default: 7 },
+  // sickLeaves: { type: Number, default: 7 },
 
 
   status:{type:Boolean,default:true}

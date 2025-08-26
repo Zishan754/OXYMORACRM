@@ -195,6 +195,104 @@ module.exports.deleteEmployee = async (req, res) => {
 
 // Edit employee with id and email validation
 
+// module.exports.editEmployee = async (req, res) => {
+//   try {
+//     const findEmployee = await adminModel.findOne({ _id: req.body._id });
+
+//     if (!findEmployee) {
+//       return res.json({
+//         status: 404,
+//         success: false,
+//         message: "Employee not found",
+//       });
+//     }
+
+//     //  Check if 'id' already exists for another employee
+//     const idExists = await adminModel.findOne({
+//       id: req.body.id,
+//       _id: { $ne: req.body._id } // exclude current employee
+//     });
+
+//     if (idExists) {
+//       return res.json({
+//         status: 409,
+//         success: false,
+//         message: "Employee ID already exists",
+//       });
+//     }
+
+//     //  Check if 'email' already exists for another employee
+//     const emailExists = await adminModel.findOne({
+//       email: req.body.email,
+//       _id: { $ne: req.body._id }
+//     });
+
+//     if (emailExists) {
+//       return res.json({
+//         status: 409,
+//         success: false,
+//         message: "Email already exists",
+//       });
+//     }
+
+//     //  Password hashing if provided
+//     let hashedPassword = findEmployee.password;
+
+//     if (req.body.password && req.body.password.trim() !== "") {
+//       hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     }
+
+//     const employeeData = {
+//       id: req.body.id,
+//       name: req.body.name,
+//       email: req.body.email,
+//       designation: req.body.designation,
+//       project: req.body.project,
+//       dob: req.body.dob,
+//       contact: req.body.contact,
+//       alternate: req.body.alternate,
+//       address: req.body.address,
+//       gender: req.body.gender,
+//       role: req.body.role,
+//       industry: req.body.industry,
+//       password: hashedPassword,
+//     };
+
+//     if (req.file !== undefined) {
+//       employeeData.profileImage = req.file.filename;
+//     }
+
+//     const editEmployee = await adminModel.updateOne(
+//       { _id: req.body._id },
+//       employeeData
+//     );
+
+//     if (editEmployee.modifiedCount > 0) {
+//       return res.json({
+//         status: 200,
+//         success: true,
+//         message: "Employee updated successfully",
+//         data: editEmployee,
+//       });
+//     } else {
+//       return res.json({
+//         status: 200,
+//         success: false,
+//         message: "Employee not updated",
+//       });
+//     }
+
+//   } catch (err) {
+//     return res.json({
+//       status: 400,
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// };
+
+
+
 module.exports.editEmployee = async (req, res) => {
   try {
     const findEmployee = await adminModel.findOne({ _id: req.body._id });
@@ -210,7 +308,7 @@ module.exports.editEmployee = async (req, res) => {
     //  Check if 'id' already exists for another employee
     const idExists = await adminModel.findOne({
       id: req.body.id,
-      _id: { $ne: req.body._id } // exclude current employee
+      _id: { $ne: req.body._id }, // exclude current employee
     });
 
     if (idExists) {
@@ -224,7 +322,7 @@ module.exports.editEmployee = async (req, res) => {
     //  Check if 'email' already exists for another employee
     const emailExists = await adminModel.findOne({
       email: req.body.email,
-      _id: { $ne: req.body._id }
+      _id: { $ne: req.body._id },
     });
 
     if (emailExists) {
@@ -256,6 +354,7 @@ module.exports.editEmployee = async (req, res) => {
       role: req.body.role,
       industry: req.body.industry,
       password: hashedPassword,
+      showStockOption: req.body.showStockOption || false, // 👈 yaha add kiya
     };
 
     if (req.file !== undefined) {
@@ -272,7 +371,7 @@ module.exports.editEmployee = async (req, res) => {
         status: 200,
         success: true,
         message: "Employee updated successfully",
-        data: editEmployee,
+        data: employeeData, // updated employeeData bhejna better hai
       });
     } else {
       return res.json({
@@ -281,7 +380,6 @@ module.exports.editEmployee = async (req, res) => {
         message: "Employee not updated",
       });
     }
-
   } catch (err) {
     return res.json({
       status: 400,
@@ -290,6 +388,7 @@ module.exports.editEmployee = async (req, res) => {
     });
   }
 };
+
 
 
 
